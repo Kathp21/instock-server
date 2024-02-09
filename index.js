@@ -2,13 +2,15 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 require('dotenv').config()
-const warehouseRoutes = require('./routes/warehouse');
+const warehouseRoutes = require('./routes/warehouse')
+const inventoryRoutes = require('./routes/inventory')
 
 app.use(cors())
 app.use(express.json())
 
 // all warehouses routes
-app.use('/warehouse', warehouseRoutes);
+app.use('/warehouse', warehouseRoutes)
+app.use('/inventory', inventoryRoutes)
 
 
 const PORT = process.env.PORT || 8080
