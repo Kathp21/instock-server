@@ -6,5 +6,9 @@ router
     .route('/')
     .get(inventoryController.index)
 
+router
+    .route('/:id')
+    .get(inventoryController.findOne)
+
 
 module.exports = router;
