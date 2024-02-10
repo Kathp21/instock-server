@@ -9,13 +9,8 @@ router
 router
 .delete('/:id', inventoryController.deleteInventoryItem);
 
-<<<<<<< HEAD
 router
     .route('/:id')
     .get(inventoryController.findOne)
-
-=======
     
->>>>>>> develop
-
 module.exports = router;
