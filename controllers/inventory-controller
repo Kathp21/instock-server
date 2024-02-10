@@ -3,25 +3,30 @@ const knex = require('knex')(require('../knexfile'));
 const index = async (req, res) => {
     try {
         const data = await knex('inventories')
-        res.status(200).json(data)
-    } catch(err) {
-        res.status(400).send(`Error retrieving Inventories: ${err}`)
+            .join('warehouses', 'inventories.warehouse_id', '=', 'warehouses.id') 
+            .select('inventories.*', 'warehouses.warehouse_name as warehouse_name'); 
+
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(400).send(`Error retrieving Inventories: ${err}`);
     }
 }
+
 
 //Get a Single Inventory 
 const findOne = async (req, res) => {
     try{
         const inventoriesFound = await knex('inventories')
-            .where({ id: req.params.id })
-        if (inventoriesFound.length === 0) {
-            return res.status(404).json({
-                message: `Inventory with ID ${req.params.id} not found`
-            })
-        }
-
-        const inventoryData = inventoriesFound[0]
-        res.json(inventoryData)
+            .join('warehouses', 'inventories.warehouse_id', '=', 'warehouses.id') 
+            .select('inventories.*', 'warehouses.warehouse_name as warehouse_name')
+            .where('inventories.id', '=', req.params.id);
+            if (inventoriesFound.length === 0) {
+                return res.status(404).json({
+                    message: `Inventory with ID ${req.params.id} not found`
+                })
+            }
+            const inventoryData = inventoriesFound[0]
+            res.json(inventoryData)
     } catch(error) {
         res.status(500).json({
             message: `Unable to retrieve inventory data for item with ID ${req.params.id}`, 
