@@ -9,4 +9,23 @@ const index = async (req, res) => {
     }
 }
 
-module.exports = { index }
+const deleteInventoryItem = async (req, res) => {
+    const { id } = req.params; 
+    
+    try {
+        const deletedCount = await knex('inventories') 
+            .where({ id })
+            .del();
+        
+        if (deletedCount === 0) {
+            
+            return res.status(404).end();
+        }
+
+        res.status(204).end();
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+};
+module.exports = { index, deleteInventoryItem }
