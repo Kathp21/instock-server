@@ -34,10 +34,6 @@ const findOne = async (req, res) => {
     }
 }
 
-module.exports = { 
-    index,
-    findOne,
- }
 const deleteInventoryItem = async (req, res) => {
     const { id } = req.params; 
     
@@ -57,4 +53,9 @@ const deleteInventoryItem = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
-module.exports = { index, deleteInventoryItem }
+
+module.exports = { 
+    index,
+    findOne,
+    deleteInventoryItem, 
+ }

@@ -6,11 +6,12 @@ router
     .route('/')
     .get(inventoryController.index)
     
-router
-.delete('/:id', inventoryController.deleteInventoryItem);
+// router
+//     .delete('/:id', inventoryController.deleteInventoryItem);
 
 router
     .route('/:id')
     .get(inventoryController.findOne)
+    .delete(inventoryController.deleteInventoryItem)
     
 module.exports = router;
