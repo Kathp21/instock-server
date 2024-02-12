@@ -14,7 +14,7 @@ const index = async (_req, res) => {
 const add = async (req, res) => {
 
     const warehouseList = () => {
-        return JSON.parse(fs.readFileSync("./seeds/02_warehouses.js"))
+        return JSON.parse(fs.readFileSync('knex'))
     };
 
     const newWarehouse = {
