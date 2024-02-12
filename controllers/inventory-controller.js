@@ -34,7 +34,6 @@ const findOne = async (req, res) => {
     }
 }
 
-<<<<<<< HEAD:controllers/inventory-controller
 //POST add new inventory
 const add = async (req,res) => {
     console.log('hello 11')
@@ -59,7 +58,6 @@ const add = async (req,res) => {
 }
 
 
-=======
 //update a single inventory
 const UpdateOne = async(req, res) => {
    
@@ -93,11 +91,8 @@ const UpdateOne = async(req, res) => {
             message: `Unable to retrieve inventory data for item with ID ${req.params.id}`, 
         })
     }
-    
-   
 }
 
->>>>>>> develop:controllers/inventory-controller.js
 const deleteInventoryItem = async (req, res) => {
     const { id } = req.params; 
     
@@ -121,10 +116,7 @@ const deleteInventoryItem = async (req, res) => {
 module.exports = { 
     index,
     findOne,
-<<<<<<< HEAD:controllers/inventory-controller
     add,
-=======
     UpdateOne,
->>>>>>> develop:controllers/inventory-controller.js
     deleteInventoryItem, 
  }
