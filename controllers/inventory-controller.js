@@ -57,6 +57,7 @@ const add = async (req,res) => {
     }
 }
 
+
 //update a single inventory
 const UpdateOne = async(req, res) => {
    
