@@ -74,8 +74,34 @@ const UpdateOne = async(req, res) => {
    
 }
 
+const getInventoriesByWarehouseId = async (req, res) => {
+    try {
+        const inventoriesFound = await knex('inventories')
+            .select('*') 
+            .where('warehouse_id', '=', req.params.id); 
+        if (inventoriesFound.length === 0) {
+            return res.status(404).json({
+                message: `Inventories for Warehouse with ID ${req.params.id} not found`
+            });
+        }
+
+        console.log("Inventories Found", inventoriesFound);
+        return res.json(inventoriesFound);
+    } catch (error) {
+        console.error("Error retrieving inventories:", error); 
+        res.status(500).json({
+            message: `Unable to retrieve inventory data for Warehouse with ID ${req.params.id}`, 
+        });
+    }
+}
+
+
 module.exports = {
     index,
-    UpdateOne,deleteWarehouse
+    UpdateOne,
+     deleteWarehouse,
+     getInventoriesByWarehouseId
 }
+
+
 
