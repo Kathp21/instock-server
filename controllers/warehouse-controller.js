@@ -2,13 +2,65 @@ const knex = require('knex')(require('../knexfile'));
 
 const index = async (_req, res) => {
     try {
-        console.log("Iam inside")
         const data = await knex('warehouses');
         res.status(200).json(data);
     } catch(err) {
         res.status(400).send(`Error retrieving Warehouses: ${err}`)
     }
-}
+};
+
+
+const add = async (req, res) => {
+
+    // const warehouseList = () => {
+    //     return JSON.parse(fs.readFileSync('knex'))
+    // };
+
+    // const newWarehouse = {
+    //     id: warehouseList().length + 1,
+    //     warehouse_name: warehouse_name,
+    //     address: address,
+    //     city: city,
+    //     country: country,
+    //     contact_name: contact_name,
+    //     contact_position: contact_position,
+    //     contact_phone: contact_phone,
+    //     contact_email: contact_email
+    // }
+
+    // const addWarehouse = (newWarehouse) => {
+    //     const freshWarehouseList = warehouseList();
+    //     fs.writeFileSync("./seeds/01_warehouses.js", JSON.stringify([...freshWarehouseList, newWarehouse]));
+    //     return newWarehouse;
+    //   }
+
+    // const justAdded = addWarehouse(newWarehouse);
+    // res.status(201).json(justAdded);
+
+
+    if (!req.body.warehouse_name ||
+        !req.body.address ||
+        !req.body.city ||
+        !req.body.country ||
+        !req.body.contact_name ||
+        !req.body.contact_phone) {
+            return res.status(400).json({
+                message: "Please fill out all form details to submit new warehouse."
+            });
+        }
+
+        try {
+            const result = await knex("warehouse").insert(req.body);
+            const newWarehouseId = result[0];
+            const createNewWarehouse = await knex("warehouse").where({ id: newWarehouseId });
+
+            res.status(201).json(createNewWarehouse);
+        } catch (err) {
+            res.status(500).json({
+                message: `Unable to create new warehouse: ${err}`
+            })
+        }
+};
 
 
 const deleteWarehouse = async (req, res) => {
@@ -98,9 +150,10 @@ const getInventoriesByWarehouseId = async (req, res) => {
 
 module.exports = {
     index,
+    add,
     UpdateOne,
-     deleteWarehouse,
-     getInventoriesByWarehouseId
+    deleteWarehouse,
+    getInventoriesByWarehouseId
 }
 
 
