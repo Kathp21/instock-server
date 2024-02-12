@@ -34,6 +34,32 @@ const findOne = async (req, res) => {
     }
 }
 
+<<<<<<< HEAD:controllers/inventory-controller
+//POST add new inventory
+const add = async (req,res) => {
+    console.log('hello 11')
+    if (!req.body.item_name || !req.body.category) {
+        return res.status(400).json({
+            message: "Please provide name and category for the new inventory",
+        })
+    }
+
+    try {
+        const result = await knex("inventories").insert(req.body)
+        console.log('Insert result:', result);
+        const newInventoryId = result[0]
+        const createdInventory = await knex("inventories").where({id: newInventoryId })
+        console.log('Created inventory:', createdInventory);
+        res.status(201).json(createdInventory)
+    } catch(error) {
+        res.status(500).json({
+            message: `Unable to create new inventory: ${error}`
+        })
+    }
+}
+
+
+=======
 //update a single inventory
 const UpdateOne = async(req, res) => {
    
@@ -71,6 +97,7 @@ const UpdateOne = async(req, res) => {
    
 }
 
+>>>>>>> develop:controllers/inventory-controller.js
 const deleteInventoryItem = async (req, res) => {
     const { id } = req.params; 
     
@@ -94,6 +121,10 @@ const deleteInventoryItem = async (req, res) => {
 module.exports = { 
     index,
     findOne,
+<<<<<<< HEAD:controllers/inventory-controller
+    add,
+=======
     UpdateOne,
+>>>>>>> develop:controllers/inventory-controller.js
     deleteInventoryItem, 
  }
