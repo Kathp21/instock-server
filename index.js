@@ -9,7 +9,7 @@ app.use(cors())
 app.use(express.json())
 
 // all warehouses routes
-app.use('/warehouse', warehouseRoutes)
+app.use('/api/warehouses', warehouseRoutes)
 app.use('/inventory', inventoryRoutes)
 app.use('/api/inventories', inventoryRoutes);
 

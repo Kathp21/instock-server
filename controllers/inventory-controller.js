@@ -34,6 +34,7 @@ const findOne = async (req, res) => {
     }
 }
 
+<<<<<<< HEAD:controllers/inventory-controller
 //POST add new inventory
 const add = async (req,res) => {
     console.log('hello 11')
@@ -58,6 +59,45 @@ const add = async (req,res) => {
 }
 
 
+=======
+//update a single inventory
+const UpdateOne = async(req, res) => {
+   
+    const { id, itemName,description,category,status, warehouseName } = req.body;
+
+    try{
+        const inventoriesValue = await knex('inventories')
+            .join('warehouses', 'inventories.warehouse_id', '=', 'warehouses.id') 
+            .select('inventories.*', 'warehouses.warehouse_name as warehouse_name')
+            .where('inventories.id', '=', req.params.id)
+            .update({
+                item_name: itemName,
+                warehouse_name: warehouseName,
+                description: description,
+                category: category,
+                status: status,
+            })
+
+
+            if (inventoriesValue.length === 0) {
+                return res.status(404).json({
+                    message: `Inventory with ID ${req.params.id} not found`
+                })
+            }
+            const inventoryData = inventoriesValue[0];
+            res.json(inventoryData);
+
+            
+    } catch(error) {
+        res.status(500).json({
+            message: `Unable to retrieve inventory data for item with ID ${req.params.id}`, 
+        })
+    }
+    
+   
+}
+
+>>>>>>> develop:controllers/inventory-controller.js
 const deleteInventoryItem = async (req, res) => {
     const { id } = req.params; 
     
@@ -81,6 +121,10 @@ const deleteInventoryItem = async (req, res) => {
 module.exports = { 
     index,
     findOne,
+<<<<<<< HEAD:controllers/inventory-controller
     add,
+=======
+    UpdateOne,
+>>>>>>> develop:controllers/inventory-controller.js
     deleteInventoryItem, 
  }
