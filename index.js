@@ -13,6 +13,7 @@ app.use('/api/warehouses', warehouseRoutes)
 app.use('/inventory', inventoryRoutes)
 app.use('/api/inventories', inventoryRoutes);
 
+
 const PORT = process.env.PORT || 8080
 
 app.listen(PORT, () => {

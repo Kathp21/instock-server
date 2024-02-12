@@ -3,9 +3,12 @@ const warehouseController = require('../controllers/warehouse-controller');
 
 router
     .route('/')
-    .get(warehouseController.index)
-    
-
+    .get(warehouseController.index);
+router
+    .route('/:id')
+    .delete( warehouseController.deleteWarehouse)
+   
+   
 router
     .route('/:id')
     .put(warehouseController.UpdateOne)
@@ -16,3 +19,4 @@ router
 
 
 module.exports = router;
+
