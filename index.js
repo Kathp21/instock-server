@@ -11,6 +11,7 @@ app.use(express.json())
 // all warehouses routes
 app.use('/api/warehouses', warehouseRoutes);
 app.use('/api/inventories', inventoryRoutes);
+// app.use('/warehouse', warehouseRoutes);
 
 
 const PORT = process.env.PORT || 8080

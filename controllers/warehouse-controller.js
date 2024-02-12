@@ -90,7 +90,7 @@ const deleteWarehouse = async (req, res) => {
 
 const UpdateOne = async(req, res) => {
 
-    console.log("check for hitting")
+   
    
     const { id, warehouse_name,address,city,country, contact_name, contact_position, contact_phone, contact_email } = req.body;
 
@@ -126,6 +126,25 @@ const UpdateOne = async(req, res) => {
    
 }
 
+const getwarehousedetail= async (req, res )=>{
+    try{
+        const warehousedetail = await knex('warehouses')
+            .where('warehouses.id', '=', req.params.id);
+            if (warehousedetail.length === 0) {
+                return res.status(404).json({
+                    message: `Inventory with ID ${req.params.id} not found`
+                })
+            }
+            const wareHousevalue = warehousedetail[0]
+            res.json(wareHousevalue)
+    } catch(error) {
+        res.status(500).json({
+            message: `Unable to retrieve inventory data for item with ID ${req.params.id}`, 
+        })
+    }
+
+}
+
 const getInventoriesByWarehouseId = async (req, res) => {
     try {
         const inventoriesFound = await knex('inventories')
@@ -153,7 +172,8 @@ module.exports = {
     add,
     UpdateOne,
     deleteWarehouse,
-    getInventoriesByWarehouseId
+    getInventoriesByWarehouseId,
+    getwarehousedetail
 }
 
 

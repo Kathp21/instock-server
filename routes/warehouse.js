@@ -13,6 +13,7 @@ router
    
 router
     .route('/:id')
+    .get(warehouseController.getwarehousedetail)
     .put(warehouseController.UpdateOne)
 
 router
