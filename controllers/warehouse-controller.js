@@ -18,7 +18,9 @@ const add = async (req, res) => {
         !req.body.city ||
         !req.body.country ||
         !req.body.contact_name ||
-        !req.body.contact_phone) {
+        !req.body.contact_position ||
+        !req.body.contact_phone ||
+        !req.body.contact_email) {
             return res.status(400).json({
                 message: "Please fill out all form details to submit new warehouse."
             });
