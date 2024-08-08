@@ -56,20 +56,16 @@ const add = async (req, res) => {
 
 const deleteWarehouse = async (req, res) => {
     console.log("Deleting warehouse");
-    const warehouseId = req.params.id;
+    const { id } = req.params
     try {
-        await knex.transaction(async trx => {
-            const rowsAffected = await trx("inventories").where("warehouse_id", warehouseId).del();
-            console.log("RowsAffected",rowsAffected)
+        const deletedCount = await knex('warehouses')
+            .where('id', id)
+            .del()
 
-            if (rowsAffected === 0) {
-                console.error("Id doesnt exist ")
-            return res.status(404).send();
-            } else{
-                console.log("Successfully deleted")
-            return  res.status(204).send()
+            if(deletedCount === 0) {
+                return res.status(404).json({message: 'Warehouse not found'})
             }
-        });
+        res.status(204).end()
 
     } catch (error) {
         console.error("Error deleting the warehouse: ", error);
