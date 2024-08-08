@@ -96,11 +96,11 @@ const UpdateOne = async(req, res) => {
 }
 
 const deleteInventoryItem = async (req, res) => {
-    const { id } = req.params; 
+    const id = req.params.id; 
     
     try {
         const deletedCount = await knex('inventories') 
-            .where({ id })
+            .where({ id: id })
             .del();
         
         if (deletedCount === 0) {
@@ -108,7 +108,7 @@ const deleteInventoryItem = async (req, res) => {
             return res.status(404).end();
         }
 
-        res.status(204).end();
+        res.status(204).json({ message: "Inventory has been deleted" })
     } catch (error) {
         console.error(error);
         res.status(500).send('Server error');

@@ -12,54 +12,45 @@ const index = async (_req, res) => {
 
 const add = async (req, res) => {
 
-    // const warehouseList = () => {
-    //     return JSON.parse(fs.readFileSync('knex'))
-    // };
+    const {
+        warehouse_name,
+        address,
+        city,
+        country,
+        contact_name,
+        contact_position,
+        contact_email,
+        contact_phone
+    } = req.body;
 
-    // const newWarehouse = {
-    //     id: warehouseList().length + 1,
-    //     warehouse_name: warehouse_name,
-    //     address: address,
-    //     city: city,
-    //     country: country,
-    //     contact_name: contact_name,
-    //     contact_position: contact_position,
-    //     contact_phone: contact_phone,
-    //     contact_email: contact_email
-    // }
+    // Check if all required fields are provided
+    if (!warehouse_name || !address || !city || !country || !contact_name || !contact_position || !contact_phone || !contact_email) {
+        return res.status(400).json({
+            message: "Please fill out all form details to submit new warehouse."
+        });
+    }
 
-    // const addWarehouse = (newWarehouse) => {
-    //     const freshWarehouseList = warehouseList();
-    //     fs.writeFileSync("./seeds/01_warehouses.js", JSON.stringify([...freshWarehouseList, newWarehouse]));
-    //     return newWarehouse;
-    //   }
+    try {
+        const result = await knex("warehouses").insert({
+            warehouse_name,
+            address,
+            city,
+            country,
+            contact_name,
+            contact_position,
+            contact_email,
+            contact_phone
+        })
+        const newWarehouseId = result[0]
+        const createNewWarehouse = await knex("warehouses").where({ id: newWarehouseId })
 
-    // const justAdded = addWarehouse(newWarehouse);
-    // res.status(201).json(justAdded);
-
-
-    if (!req.body.warehouse_name ||
-        !req.body.address ||
-        !req.body.city ||
-        !req.body.country ||
-        !req.body.contact_name ||
-        !req.body.contact_phone) {
-            return res.status(400).json({
-                message: "Please fill out all form details to submit new warehouse."
-            });
-        }
-
-        try {
-            const result = await knex("warehouse").insert(req.body);
-            const newWarehouseId = result[0];
-            const createNewWarehouse = await knex("warehouse").where({ id: newWarehouseId });
-
-            res.status(201).json(createNewWarehouse);
-        } catch (err) {
-            res.status(500).json({
-                message: `Unable to create new warehouse: ${err}`
-            })
-        }
+        res.status(201).json(createNewWarehouse);
+    } catch (err) {
+        console.error(`Error creating new warehouse: ${err}`);
+        res.status(500).json({
+            message: `Unable to create new warehouse: ${err}`
+        })
+    }
 };
 
 
